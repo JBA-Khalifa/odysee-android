@@ -318,5 +318,6 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/signin_monsters" />
+        android:src="@drawable/signin_monsters"
+        android:visibility="gone"/>
 </LinearLayout>
