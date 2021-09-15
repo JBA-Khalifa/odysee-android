@@ -375,9 +375,9 @@ public class SignInActivity extends Activity {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                restoreControls(true);
                 layoutPassword.setVisibility(View.VISIBLE);
                 buttonPrimary.setText(R.string.sign_in);
+                restoreControlsOnMainThread(true);
             }
         });
     }
@@ -458,16 +458,20 @@ public class SignInActivity extends Activity {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                inputEmail.setEnabled(true);
-                inputPassword.setEnabled(true);
-                buttonPrimary.setEnabled(true);
-                buttonSecondary.setEnabled(true);
-                activityProgress.setVisibility(View.INVISIBLE);
-
-                closeSignupSignIn.setVisibility(showClose ? View.VISIBLE : View.GONE);
-                findViewById(R.id.signin_buttons).setVisibility(View.VISIBLE);
+                restoreControlsOnMainThread(showClose);
             }
         });
+    }
+
+    private void restoreControlsOnMainThread(boolean showClose) {
+        inputEmail.setEnabled(true);
+        inputPassword.setEnabled(true);
+        buttonPrimary.setEnabled(true);
+        buttonSecondary.setEnabled(true);
+        activityProgress.setVisibility(View.INVISIBLE);
+
+        closeSignupSignIn.setVisibility(showClose ? View.VISIBLE : View.GONE);
+        findViewById(R.id.signin_buttons).setVisibility(View.VISIBLE);
     }
 
     private void handleUserSignUp(final String email, final String password) {
@@ -662,7 +666,7 @@ public class SignInActivity extends Activity {
         }
 
         inputPassword.setText("");
-        restoreControls(true);
+        restoreControlsOnMainThread(true);
 
         TransitionManager.beginDelayedTransition(findViewById(R.id.verification_activity));
         layoutVerify.setVisibility(View.GONE);
