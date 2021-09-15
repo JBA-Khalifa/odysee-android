@@ -227,23 +227,26 @@ public class SignInActivity extends Activity {
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
+                    android.util.Log.d(TAG, "Sending /user/exists request");
                     Map<String, String> options = new HashMap<>();
                     options.put("email", email);
                     try {
                         Object response = Lbryio.parseResponse(Lbryio.call(
                                 "user", "exists", options, Helper.METHOD_POST, SignInActivity.this));
-
+                        android.util.Log.d(TAG, "/user/exists response: " + response.toString());
                         requestInProgress = false;
                         if (response instanceof JSONObject) {
                             JSONObject json = (JSONObject) response;
                             boolean hasPassword = Helper.getJSONBoolean("has_password", false, json);
                             if (!hasPassword) {
+                                android.util.Log.d(TAG, "hasPassword is false");
                                 setCurrentEmail(email);
                                 handleUserSignInWithoutPassword(email);
                                 return;
                             }
 
                             // email exists, we can use sign in flow. Show password field
+                            android.util.Log.d(TAG, "hasPassword is true. Displaying signIn controls.");
                             setCurrentEmail(email);
                             emailSignInChecked = true;
                             displaySignInControls();
@@ -252,6 +255,7 @@ public class SignInActivity extends Activity {
                         if (ex instanceof LbryioResponseException) {
                             LbryioResponseException rex = (LbryioResponseException) ex;
                             if (rex.getStatusCode() == 412) {
+                                android.util.Log.d(TAG, "StatusCode is 412. User sign in without password.");
                                 // old email verification flow
                                 setCurrentEmail(email);
                                 handleUserSignInWithoutPassword(email);
@@ -266,6 +270,7 @@ public class SignInActivity extends Activity {
                             }
                         }
 
+                        android.util.Log.e(TAG, ex.getMessage(), ex);
                         requestInProgress = false;
                         restoreControls(true);
                         showError(ex.getMessage());
