@@ -79,7 +79,7 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <LinearLayout
             android:id="@+id/signin_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
                 android:textColor="@color/colorPrimary"
                 android:fontFamily="@font/inter"
                 android:text="@string/sign_in" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </LinearLayout>
         <ProgressBar
             android:id="@+id/signin_activity_progress"
             android:layout_width="30dp"
