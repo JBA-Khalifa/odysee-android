@@ -372,14 +372,15 @@ public class SignInActivity extends Activity {
     }
 
     private void displaySignInControls() {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 layoutPassword.setVisibility(View.VISIBLE);
                 buttonPrimary.setText(R.string.sign_in);
+                findViewById(R.id.signin_buttons).setVisibility(View.VISIBLE);
                 restoreControlsOnMainThread(true);
             }
-        });
+        }, 1000);
     }
 
     private void handleUserSignInWithoutPassword(String email) {
